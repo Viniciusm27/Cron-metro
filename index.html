@@ -4,354 +4,94 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Nosso Amor</title>
-  <meta name="description" content="Um site romântico com contador desde 20/07/2025, galeria de fotos e QR Code." />
+  <meta name="description" content="Um site romântico com contador desde 20/07/2025, galeria de fotos fixa e QR Code." />
   <style>
-    /* =========================
-       PALETA (Roxo, Rosa, Branco, Preto)
-       ========================= */
     :root {
-      --roxinho: #7b3aed; /* roxo vibrante */
-      --rosa: #ff4d94;    /* rosa romântico */
-      --branco: #ffffff;  
-      --preto: #0f0f13;   
-      --cinza: #1b1b22;
+      --roxinho: #7b3aed;
+      --rosa: #ff4d94;
+      --branco: #ffffff;
+      --preto: #0f0f13;
       --gradient: linear-gradient(135deg, rgba(123,58,237,.9), rgba(255,77,148,.9));
     }
-
-    /* Reset básico */
     * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0; font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      color: var(--branco); background: radial-gradient(1200px 800px at 80% -10%, rgba(255,77,148,0.15), transparent 60%),
-                              radial-gradient(1000px 700px at -10% 10%, rgba(123,58,237,0.18), transparent 50%),
-                              var(--preto);
-      line-height: 1.6;
-    }
-
-    /* Layout base */
+    html, body { height: 100%; margin:0; font-family: Poppins, sans-serif; color: var(--branco); background: var(--preto); line-height:1.6; }
     .container { width: min(1100px, 92vw); margin: 0 auto; }
-
-    header.hero {
-      position: relative; isolation: isolate; overflow: hidden;
-      background: var(--gradient);
-      padding: clamp(2rem, 6vw, 4rem) 0;
-      border-bottom-left-radius: 2rem; border-bottom-right-radius: 2rem;
-      box-shadow: 0 12px 50px rgba(0,0,0,.35);
-    }
-    .hero .shine {
-      position: absolute; inset: -10%; z-index: -1;
-      background: radial-gradient(600px 300px at 20% 10%, rgba(255,255,255,.25), transparent 60%),
-                  radial-gradient(500px 250px at 80% 40%, rgba(255,255,255,.22), transparent 60%);
-      filter: blur(40px); opacity: .9;
-    }
-    .title { text-align: center; }
-    .title h1 {
-      margin: 0 0 .5rem; font-weight: 800; letter-spacing: .5px;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      text-shadow: 0 6px 22px rgba(0,0,0,.25);
-    }
-    .title p { margin: 0; opacity: .95; font-size: clamp(1rem, 2.6vw, 1.2rem); }
-
-    /* Corações delicados flutuantes */
-    .hearts { position: absolute; inset: 0; pointer-events: none; }
-    .heart { position: absolute; font-size: 20px; opacity: .18; animation: rise 12s linear infinite; }
-    @keyframes rise { from { transform: translateY(20%) scale(1); } to { transform: translateY(-120%) scale(1.6); } }
-
-    /* Contador */
-    .countdown {
-      margin-top: 2rem; display: grid; gap: 1rem; grid-template-columns: repeat(4, minmax(120px, 1fr));
-    }
-    .counter-card {
-      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
-      border-radius: 1.5rem; padding: 1rem; text-align: center;
-      backdrop-filter: blur(6px);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), 0 12px 30px rgba(0,0,0,.25);
-    }
-    .counter-value { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 800; }
-    .counter-label { opacity: .85; font-weight: 500; letter-spacing: .5px; }
-
-    /* Seções */
-    section { padding: clamp(2rem, 6vw, 3.5rem) 0; }
-    section h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); margin: 0 0 1rem; }
-    .card {
-      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
-      border-radius: 1.25rem; padding: clamp(1rem, 2vw, 1.25rem);
-      box-shadow: 0 8px 26px rgba(0,0,0,.28);
-    }
-
-    /* Galeria de Fotos */
-    .gallery { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
-    .photo-slot {
-      position: relative; aspect-ratio: 1/1; border-radius: 1rem; overflow: hidden;
-      background: #14141b; border: 1px dashed rgba(255,255,255,.25);
-      display: grid; place-items: center; cursor: pointer;
-      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-    }
-    .photo-slot:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.35); border-color: rgba(255,77,148,.6); }
-    .photo-slot input { display: none; }
-    .photo-slot span { opacity: .8; font-weight: 500; text-align: center; padding: .5rem; }
-    .photo-slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .heart-frame::after{
-      content: ""; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(60% 60% at 50% 40%, rgba(255,77,148,.35), transparent 60%),
-                  radial-gradient(50% 50% at 70% 70%, rgba(123,58,237,.25), transparent 60%);
-      mix-blend-mode: screen;
-    }
-
-    /* QR Code */
-    .qr-wrap { display: grid; gap: 1rem; grid-template-columns: 1fr; }
-    .qr-controls { display: grid; gap: .75rem; grid-template-columns: 1fr 150px; align-items: center; }
-    .qr-controls input[type="url"], .qr-controls input[type="text"] {
-      width: 100%; padding: .9rem 1rem; border-radius: .8rem; border: 1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.06); color: var(--branco);
-      outline: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.04);
-    }
-    .qr-controls .actions { display: flex; gap: .5rem; justify-content: flex-end; }
-    .btn {
-      background: var(--gradient); color: var(--branco); border: none; font-weight: 600;
-      padding: .85rem 1rem; border-radius: .9rem; cursor: pointer;
-      box-shadow: 0 10px 22px rgba(0,0,0,.28); transition: transform .12s ease;
-    }
-    .btn:active { transform: translateY(1px); }
-    .qr-canvas {
-      width: 200px; height: 200px; display: grid; place-items: center;
-      background: var(--branco); border-radius: 1rem; padding: .75rem; margin: .5rem 0;
-      box-shadow: 0 8px 20px rgba(0,0,0,.3);
-    }
-
-    /* Rodapé */
-    footer { text-align: center; padding-bottom: 2rem; opacity: .8; }
-
-    /* Responsividade extra */
-    @media (max-width: 640px){
-      .countdown { grid-template-columns: repeat(2, 1fr); }
-      .qr-controls { grid-template-columns: 1fr; }
-      .qr-canvas { justify-self: center; }
-    }
+    header.hero { position: relative; padding: clamp(2rem,6vw,4rem) 0; text-align:center; background: var(--gradient); border-bottom-left-radius:2rem; border-bottom-right-radius:2rem; }
+    .title h1 { font-size: clamp(2rem,5vw,3.5rem); margin:0 0 .5rem; }
+    .countdown { display:grid; gap:1rem; grid-template-columns: repeat(4, minmax(120px,1fr)); margin-top:2rem; }
+    .counter-card { background: rgba(255,255,255,.08); border-radius:1.5rem; padding:1rem; text-align:center; }
+    .counter-value { font-size: clamp(2rem,4.5vw,3rem); font-weight:800; }
+    .counter-label { opacity:.85; }
+    section { padding: clamp(2rem,6vw,3.5rem) 0; }
+    .gallery { display:grid; gap:1rem; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); }
+    .photo-slot { position: relative; aspect-ratio: 1/1; border-radius:1rem; overflow:hidden; border:1px solid rgba(255,255,255,.25); }
+    .photo-slot img { width:100%; height:100%; object-fit:cover; }
+    .heart-frame::after{ content: ''; position:absolute; inset:0; background: radial-gradient(60% 60% at 50% 40%, rgba(255,77,148,.35), transparent 60%), radial-gradient(50% 50% at 70% 70%, rgba(123,58,237,.25), transparent 60%); mix-blend-mode: screen; }
+    .qr-canvas { width:200px; height:200px; margin:1rem auto; display:block; }
+    footer { text-align:center; padding-bottom:2rem; opacity:.8; }
   </style>
 </head>
 <body>
-  <header class="hero">
-    <div class="shine"></div>
-    <div class="hearts" aria-hidden="true"></div>
-    <div class="container title">
-      <h1>Nosso Amor</h1>
-      <p>Desde <strong>20/07/2025</strong> — celebrando cada segundo ao seu lado.</p>
-
-      <div class="countdown" id="countdown">
-        <div class="counter-card">
-          <div class="counter-value" id="days">0</div>
-          <div class="counter-label">dias</div>
-        </div>
-        <div class="counter-card">
-          <div class="counter-value" id="hours">0</div>
-          <div class="counter-label">horas</div>
-        </div>
-        <div class="counter-card">
-          <div class="counter-value" id="minutes">0</div>
-          <div class="counter-label">minutos</div>
-        </div>
-        <div class="counter-card">
-          <div class="counter-value" id="seconds">0</div>
-          <div class="counter-label">segundos</div>
-        </div>
-      </div>
+<header class="hero">
+  <div class="title">
+    <h1>Nosso Amor</h1>
+    <p>Desde <strong>20/07/2025</strong> — celebrando cada segundo ao seu lado.</p>
+    <div class="countdown" id="countdown">
+      <div class="counter-card"><div class="counter-value" id="days">0</div><div class="counter-label">dias</div></div>
+      <div class="counter-card"><div class="counter-value" id="hours">0</div><div class="counter-label">horas</div></div>
+      <div class="counter-card"><div class="counter-value" id="minutes">0</div><div class="counter-label">minutos</div></div>
+      <div class="counter-card"><div class="counter-value" id="seconds">0</div><div class="counter-label">segundos</div></div>
     </div>
-  </header>
+  </div>
+</header>
+<main class="container">
+  <section>
+    <h2>Nosso Álbum</h2>
+    <div class="gallery">
+      <div class="photo-slot heart-frame"><img src="images/foto1.png" alt="Momento 1"></div>
+      <div class="photo-slot heart-frame"><img src="images/foto2.jpg" alt="Momento 2"></div>
+      <div class="photo-slot heart-frame"><img src="images/foto3.jpg" alt="Momento 3"></div>
+      <div class="photo-slot heart-frame"><img src="images/foto4.jpg" alt="Momento 4"></div>
+      <div class="photo-slot heart-frame"><img src="images/foto5.jpg" alt="Momento 5"></div>
+      <div class="photo-slot heart-frame"><img src="images/foto6.jpg" alt="Momento 6"></div>
+      <div class="photo-slot heart-frame"><img src="images/foto7.jpg" alt="Momento 7"></div>
+      <div class="photo-slot heart-frame"><img src="images/foto8.jpg" alt="Momento 8"></div>
+    </div>
+  </section>
+  <section>
+    <h2>QR Code do Nosso Site</h2>
+    <canvas class="qr-canvas" id="qrcode"></canvas>
+  </section>
+</main>
+<footer>
+  <p>Feito com ❤ em roxo e rosa.</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script>
+  // Contador
+  const startDate = new Date('2025-07-20T00:00:00');
+  const daysEl = document.getElementById('days');
+  const hoursEl = document.getElementById('hours');
+  const minutesEl = document.getElementById('minutes');
+  const secondsEl = document.getElementById('seconds');
+  function updateCountdown(){
+    const now = new Date(); let diff = now - startDate;
+    if(diff<0) diff=0;
+    const sec = Math.floor(diff/1000);
+    const days = Math.floor(sec/86400);
+    const hours = Math.floor((sec%86400)/3600);
+    const minutes = Math.floor((sec%3600)/60);
+    const seconds = sec%60;
+    daysEl.textContent = days;
+    hoursEl.textContent = String(hours).padStart(2,'0');
+    minutesEl.textContent = String(minutes).padStart(2,'0');
+    secondsEl.textContent = String(seconds).padStart(2,'0');
+  }
+  updateCountdown(); setInterval(updateCountdown,1000);
 
-  <main class="container">
-    <section>
-      <h2>Nosso Álbum</h2>
-      <p>Toque em um quadro para adicionar uma foto do seu relacionamento. As imagens ficam apenas no seu navegador (não são enviadas para nenhum servidor).</p>
-      <div class="gallery" id="gallery">
-        <!-- 8 slots iniciais -->
-        <label class="photo-slot heart-frame"><input type="file" accept="image/*" /><span>Adicionar foto</span></label>
-        <label class="photo-slot heart-frame"><input type="file" accept="image/*" /><span>Adicionar foto</span></label>
-        <label class="photo-slot heart-frame"><input type="file" accept="image/*" /><span>Adicionar foto</span></label>
-        <label class="photo-slot heart-frame"><input type="file" accept="image/*" /><span>Adicionar foto</span></label>
-        <label class="photo-slot heart-frame"><input type="file" accept="image/*" /><span>Adicionar foto</span></label>
-        <label class="photo-slot heart-frame"><input type="file" accept="image/*" /><span>Adicionar foto</span></label>
-        <label class="photo-slot heart-frame"><input type="file" accept="image/*" /><span>Adicionar foto</span></label>
-        <label class="photo-slot heart-frame"><input type="file" accept="image/*" /><span>Adicionar foto</span></label>
-      </div>
-      <div style="margin-top:1rem; display:flex; gap:.5rem; flex-wrap:wrap;">
-        <button class="btn" id="addSlot">Adicionar mais quadros</button>
-        <button class="btn" id="clearPhotos" style="background: linear-gradient(135deg,#222,#444);">Limpar fotos</button>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>QR Code do Nosso Site</h2>
-      <div class="qr-wrap">
-        <div class="qr-controls">
-          <input id="qrUrl" type="url" placeholder="Cole aqui o link do seu site" />
-          <div class="actions">
-            <button class="btn" id="genQR">Gerar</button>
-          </div>
-        </div>
-        <div class="qr-canvas" id="qrcode"></div>
-        <div style="display:flex; gap:.5rem; flex-wrap:wrap;">
-          <button class="btn" id="downloadQR">Baixar PNG</button>
-          <button class="btn" id="copyLink" style="background: linear-gradient(135deg,#1f2937,#374151);">Copiar link</button>
-        </div>
-        <small style="opacity:.8">Dica: publique este arquivo como sua página (por exemplo, no Netlify, GitHub Pages ou domínio próprio). O QR sempre apontará para o link configurado acima.</small>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>Feito com ❤ em roxo e rosa.</p>
-  </footer>
-
-  <!-- =========================
-       JS: Contador, Galeria e QR
-       ========================= -->
-  <script>
-    // ===== Corações animados no hero =====
-    (function createHearts(){
-      const wrap = document.querySelector('.hearts');
-      const hearts = '❤♡💜💗';
-      for(let i=0;i<24;i++){
-        const e=document.createElement('div');
-        e.className='heart'; e.textContent=hearts[Math.floor(Math.random()*hearts.length)];
-        e.style.left = Math.random()*100 + '%';
-        e.style.bottom = (-10+Math.random()*20) + '%';
-        e.style.animationDelay = (Math.random()*12)+'s';
-        e.style.fontSize = (16+Math.random()*28)+'px';
-        wrap.appendChild(e);
-      }
-    })();
-
-    // ===== Contador desde 20/07/2025 =====
-    const startDate = new Date('2025-07-20T00:00:00'); // horário local do navegador
-    const daysEl = document.getElementById('days');
-    const hoursEl = document.getElementById('hours');
-    const minutesEl = document.getElementById('minutes');
-    const secondsEl = document.getElementById('seconds');
-
-    function updateCountdown(){
-      const now = new Date();
-      let diff = now - startDate;
-      if(diff < 0) diff = 0; // caso a data esteja no futuro
-      const sec = Math.floor(diff/1000);
-      const days = Math.floor(sec / 86400);
-      const hours = Math.floor((sec % 86400) / 3600);
-      const minutes = Math.floor((sec % 3600) / 60);
-      const seconds = sec % 60;
-      daysEl.textContent = days;
-      hoursEl.textContent = String(hours).padStart(2,'0');
-      minutesEl.textContent = String(minutes).padStart(2,'0');
-      secondsEl.textContent = String(seconds).padStart(2,'0');
-    }
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-    // ===== Galeria: adicionar fotos localmente =====
-    function wireSlot(label){
-      const input = label.querySelector('input[type="file"]');
-      input.addEventListener('change', () => {
-        const file = input.files[0];
-        if(!file) return;
-        const img = document.createElement('img');
-        img.alt = 'Foto do nosso relacionamento';
-        img.src = URL.createObjectURL(file);
-        label.appendChild(img);
-        label.querySelector('span')?.remove();
-        label.style.borderStyle = 'solid';
-      });
-    }
-    document.querySelectorAll('.photo-slot').forEach(wireSlot);
-
-    document.getElementById('addSlot').addEventListener('click', () => {
-      const g = document.getElementById('gallery');
-      for(let i=0;i<4;i++){
-        const label = document.createElement('label');
-        label.className = 'photo-slot heart-frame';
-        label.innerHTML = '<input type="file" accept="image/*" /><span>Adicionar foto</span>';
-        g.appendChild(label); wireSlot(label);
-      }
-    });
-
-    document.getElementById('clearPhotos').addEventListener('click', () => {
-      document.querySelectorAll('.photo-slot').forEach(slot => {
-        slot.innerHTML = '<input type="file" accept="image/*" /><span>Adicionar foto</span>';
-        slot.style.borderStyle = 'dashed';
-        wireSlot(slot);
-      });
-    });
-
-    // ===== QR Code (qrcode.js integrado) =====
-    /* QRCode.js (versão reduzida) – autoria original: davidshimjs
-       Repositório: https://github.com/davidshimjs/qrcodejs
-       Abaixo está uma versão minificada incorporada para funcionar offline. */
-    !function(o){function t(o){this.mode=e.MODE_8BIT_BYTE,this.data=o,this.parsedData=[];for(var t=0,r=this.data.length;t<r;t++){var n=[],i=this.data.charCodeAt(t);i>65536?(n[0]=240|(1835008&i)>>>18,n[1]=128|(258048&i)>>>12,n[2]=128|(4032&i)>>>6,n[3]=128|63&i):i>2048?(n[0]=224|(61440&i)>>>12,n[1]=128|(4032&i)>>>6,n[2]=128|63&i):i>128?(n[0]=192|(1984&i)>>>6,n[1]=128|63&i):n[0]=i,this.parsedData.push(n)}this.parsedData=Array.prototype.concat.apply([],this.parsedData),this.parsedData.length!=this.data.length&&(this.parsedData.unshift(191),this.parsedData.unshift(187),this.parsedData.unshift(239))}function r(o,t){this.typeNumber=o,this.errorCorrectLevel=t,this.modules=null,this.moduleCount=0,this.dataCache=null,this.dataList=[]}var e={};t.prototype={getLength:function(o){return this.parsedData.length},write:function(o){for(var t=0,r=this.parsedData.length;t<r;t++)o.put(this.parsedData[t],8)}},e.PAD0=236,e.PAD1=17,e.MODE_8BIT_BYTE=4,e.ErrorCorrectLevel={L:1,M:0,Q:3,H:2};var n={PATTERN_POSITION_TABLE:[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50]],G15:1335,G18:7973,G15_MASK:21522,getBCHTypeInfo:function(o){for(var t=o<<10;this.getBCHDigit(t)-this.getBCHDigit(this.G15)>=0;)t^=this.G15<<this.getBCHDigit(t)-this.getBCHDigit(this.G15);return(o<<10|t)^this.G15_MASK},getBCHTypeNumber:function(o){for(var t=o<<12;this.getBCHDigit(t)-this.getBCHDigit(this.G18)>=0;)t^=this.G18<<this.getBCHDigit(t)-this.getBCHDigit(this.G18);return o<<12|t},getBCHDigit:function(o){var t=0;for(;0!=o;)t++,o>>>=1;return t},getPatternPosition:function(o){return this.PATTERN_POSITION_TABLE[o-1]},getMask:function(o,t,r){switch(o){case 0:return(t+r)%2==0;case 1:return t%2==0;case 2:return r%3==0;case 3:return(t+r)%3==0;case 4:return(Math.floor(t/2)+Math.floor(r/3))%2==0;case 5:return t*r%2+t*r%3==0;case 6:return(t*r%2+t*r%3)%2==0;case 7:return(t*r%3+(t+r)%2)%2==0;default:throw new Error("bad maskPattern:")+o}},getErrorCorrectPolynomial:function(o){for(var t=new i([1],0),r=0;r<o;r++)t=t.multiply(new i([1,s.gexp(r)],0));return t},getLengthInBits:function(o,t){if(1<=t&&t<10)switch(o){case e.MODE_8BIT_BYTE:return 8;default:throw new Error("mode:")+o}else if(t<27)switch(o){case e.MODE_8BIT_BYTE:return 16;default:throw new Error("mode:")+o}else{if(!(t<41))throw new Error("typeNumber:")+t;switch(o){case e.MODE_8BIT_BYTE:return 16;default:throw new Error("mode:")+o}}},getLostPoint:function(o){for(var t=o.getModuleCount(),r=0,e=0;e<t;e++)for(var n=0;n<t;n++){for(var i=0,a=o.isDark(e,n),u=-1;u<=1;u++)if(!(e+u<0||t<=e+u))for(var f=-1;f<=1;f++)n+f<0||t<=n+f||0==u&&0==f||a==o.isDark(e+u,n+f)&&i++;i>5&&(r+=3+i-5)}for(e=0;e<t-1;e++)for(n=0;n<t-1;n++){var l=0;o.isDark(e,n)&&l++,o.isDark(e+1,n)&&l++,o.isDark(e,n+1)&&l++,o.isDark(e+1,n+1)&&l++,(0==l||4==l)&&(r+=3)}for(e=0;e<t;e++)for(n=0;n<t-6;n++)o.isDark(e,n)&&!o.isDark(e,n+1)&&o.isDark(e,n+2)&&o.isDark(e,n+3)&&o.isDark(e,n+4)&&!o.isDark(e,n+5)&&o.isDark(e,n+6)&&(r+=40);for(n=0;n<t;n++)for(e=0;e<t-6;e++)o.isDark(e,n)&&!o.isDark(e+1,n)&&o.isDark(e+2,n)&&o.isDark(e+3,n)&&o.isDark(e+4,n)&&!o.isDark(e+5,n)&&o.isDark(e+6,n)&&(r+=40);for(var c=0,h=0,m=0;n=t,e=0;e<n;e++)for(var g=0;g<n;g++)o.isDark(e,g)&&m++;var v=Math.abs(100*m/t/t-50)/5;r+=10*v;return r}};function i(o,t){if(null==o.length)throw new Error(o.length+"/"+t);this.num=function(){for(var t=0;t<o.length&&0==o[t];)t++;for(var r=new Array(o.length-t),e=0;e<r.length;e++)r[e]=o[e+t];return r}(),this.shiftLeft=t}i.prototype={get:function(o){return this.num[o]},getLength:function(){return this.num.length},multiply:function(o){for(var t=new Array(this.getLength()+o.getLength()-1),r=0;r<this.getLength();r++)for(var e=0;e<o.getLength();e++)t[r+e]^=s.gexp(s.glog(this.get(r))+s.glog(o.get(e)));return new i(t,0)},mod:function(o){if(this.getLength()-o.getLength()<0)return this;for(var t=s.glog(this.get(0))-s.glog(o.get(0)),r=new Array(this.getLength()),e=0;e<this.getLength();e++)r[e]=this.get(e);for(e=0;e<o.getLength();e++)r[e]^=s.gexp(s.glog(o.get(e))+t);return new i(r,0).mod(o)}};var s={glog:function(o){if(o<1)throw new Error("glog("+o+")");return a[o]},gexp:function(o){for(;o<0;)o+=255;for(;o>=256;)o-=255;return u[o]}};for(var a=new Array(256),u=new Array(256),f=1,l=0;l<256;l++)u[l]=f,f<<=1,f>=256&&(f^=285),a[u[l]]=l;function c(o,t){this.buffer=new Array,o&&(this.buffer=o,this.length=t)}c.prototype={get:function(o){return 1==(this.buffer[Math.floor(o/8)]>>>7-o%8&1)},put:function(o,t){for(var r=0;r<t;r++)this.putBit(1==(o>>>t-r-1&1))},getLengthInBits:function(){return this.length},putBit:function(o){this.buffer.length<=Math.floor(this.length/8)&&this.buffer.push(0),o&&(this.buffer[Math.floor(this.length/8)]|=128>>>this.length%8),this.length++}};r.prototype={addData:function(o){var r=new t(o);this.dataList.push(r),this.dataCache=null},isDark:function(o,t){if(o<0||this.moduleCount<=o||t<0||this.moduleCount<=t)throw new Error(o+","+t);return this.modules[o][t]},getModuleCount:function(){return this.moduleCount},make:function(){this.makeImpl(!1,this.getBestMaskPattern())},makeImpl:function(o,t){this.moduleCount=4*this.typeNumber+17,this.modules=new Array(this.moduleCount);for(var r=0;r<this.moduleCount;r++){this.modules[r]=new Array(this.moduleCount);for(var e=0;e<this.moduleCount;e++)this.modules[r][e]=null}this.setupPositionProbePattern(0,0),this.setupPositionProbePattern(this.moduleCount-7,0),this.setupPositionProbePattern(0,this.moduleCount-7),this.setupPositionAdjustPattern(),this.setupTimingPattern(),this.setupTypeInfo(o,t),this.typeNumber>=7&&this.setupTypeNumber(o),null==this.dataCache&&(this.dataCache=this.createData(this.typeNumber,this.errorCorrectLevel,this.dataList)),this.mapData(this.dataCache,t)},setupPositionProbePattern:function(o,t){for(var r=-1;r<=7;r++)if(!(o+r<=-1||this.moduleCount<=o+r))for(var e=-1;e<=7;e++)t+e<=-1||this.moduleCount<=t+e||(this.modules[o+r][t+e]=r>=0&&r<=6&&(0==e||6==e)||e>=0&&e<=6&&(0==r||6==r)||r>=2&&r<=4&&e>=2&&e<=4)},getBestMaskPattern:function(){for(var o=0,t=0,r=0;r<8;r++){this.makeImpl(!0,r);var e=n.getLostPoint(this);(0==r||o>e)&&(o=e,t=r)}return t},createMovieClip:function(o,t,r){},setupTimingPattern:function(){for(var o=8;o<this.moduleCount-8;o++)null==this.modules[o][6]&&(this.modules[o][6]=o%2==0),null==this.modules[6][o]&&(this.modules[6][o]=o%2==0)},setupPositionAdjustPattern:function(){for(var o=n.getPatternPosition(this.typeNumber),t=0;t<o.length;t++)for(var r=0;r<o.length;r++){var e=o[t],i=o[r];if(null==this.modules[e][i])for(var s=-2;s<=2;s++)for(var a=-2;a<=2;a++)this.modules[e+s][i+a]=s==-2||s==2||0==s||a==-2||a==2||0==a||(0==s&&0==a)}},setupTypeNumber:function(o){for(var t=n.getBCHTypeNumber(this.typeNumber),r=0;r<18;r++){var e=!o&&1==(t>>r&1);this.modules[Math.floor(r/3)][r%3+this.moduleCount-8-3]=e}for(r=0;r<18;r++)e=!o&&1==(t>>r&1),this.modules[r%3+this.moduleCount-8-3][Math.floor(r/3)]=e},setupTypeInfo:function(o,t){for(var r=n.getBCHTypeInfo(this.errorCorrectLevel<<3|t),e=0;e<15;e++){var i=!o&&1==(r>>e&1);e<6?this.modules[e][8]=i:e<8?this.modules[e+1][8]=i:this.modules[this.moduleCount-15+e][8]=i}for(e=0;e<15;e++)i=!o&&1==(r>>e&1),e<8?this.modules[8][this.moduleCount-e-1]=i:e<9?this.modules[8][15-e-1+1]=i:this.modules[8][15-e-1]=i;this.modules[this.moduleCount-8][8]=!o},mapData:function(o,t){for(var r=-1,e=this.moduleCount-1,i=7,a=0,u=this.moduleCount-1;u>0;u-=2)for(6==u&&u--;;){for(var f=0;f<2;f++)null==this.modules[e][u-f]&&(a<o.length?this.modules[e][u-f]=1==(o[a]>>>i&1):this.modules[e][u-f]=!1,i--,-1==i&&(a++,i=7));if((e+=r)<0||this.moduleCount<=e){e-=r,r=-r;break}}},createData:function(o,t,r){for(var i=n.getLengthInBits(e.MODE_8BIT_BYTE,o),s=new c,null,h=0;h<r.length;h++){var m=r[h];s.put(m.mode,4),s.put(m.getLength(),i),m.write(s)}var g=0;switch(t){case e.ErrorCorrectLevel.L:g=1;break;case e.ErrorCorrectLevel.M:g=0;break;case e.ErrorCorrectLevel.Q:g=3;break;case e.ErrorCorrectLevel.H:g=2}for(var v=u0(o,g),d=g0(v,t),p=v.totalCodeCount-d.dataCount,y=s.getLengthInBits(),C=8*v.dataCount;y> C && (o++,i=n.getLengthInBits(e.MODE_8BIT_BYTE,o),v=u0(o,g),d=g0(v,t),p=v.totalCodeCount-d.dataCount,C=8*v.dataCount););if(s.getLengthInBits()>C)throw new Error("code length overflow. ("+s.getLengthInBits()+">"+C+")");for(s.getLengthInBits()+4<=C&&s.put(0,4);s.getLengthInBits()%8!=0;)s.putBit(!1);for(var E=0;s.getLengthInBits()<C;)s.put(E%2==0?e.PAD0:e.PAD1,8),E++;return y1(s,v,d)},};function u0(o,t){var r=Math.min(Math.max(o,1),9);return{typeNumber:r,totalCodeCount:[0,26,44,70,100,134,172,196,242,292][r]}}function g0(o,t){var r={M:{dataCount:[0,16,28,44,64,86,108,124,154,182]},L:{dataCount:[0,19,34,55,80,108,136,156,194,232]},Q:{dataCount:[0,13,22,34,48,62,76,88,110,132]},H:{dataCount:[0,9,16,26,36,46,60,66,86,100]}};return{dataCount:r[["M","L","Q","H"][t]]["dataCount"][o.typeNumber]}}function y1(o,t,r){for(var e=r.dataCount,n=new c([],0),a=0;a<e;a++)n.put(o.get(a),8);var u=t.totalCodeCount-e;for(a=0;a<u;a++)n.put(0,8);return function(o,t){var r=new i([1],0);for(let e=0;e<t;e++)r=r.multiply(new i([1,s.gexp(e)],0));var e1=new c([],0);e1.length=o.getLengthInBits();for(let t=0;t<o.getLengthInBits()/8;t++)e1.buffer[t]=o.buffer[t];var n=r.mod(new i(Array.from({length:r.getLength()+1},()=>0),0));return new Array(n.getLength()).fill(0).map((_,e)=>n.get(e))}(n,u)}
-
-    function generateQRCode(text){
-      // Fallback simples: desenha a partir de um canvas 21x21 (versões baixas)
-      // Para simplificar, usamos a implementação acima via r (QRCode model simplificado)
-      // Cria QR básico com correção M
-      try{
-        const q = new r(5, e.ErrorCorrectLevel.M); // versão 5 (tamanho moderado)
-        q.addData(text || '');
-        q.make();
-        const size = 200;
-        const scale = Math.floor(size / q.getModuleCount());
-        const canvas = document.createElement('canvas');
-        canvas.width = canvas.height = q.getModuleCount()*scale;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle = '#000';
-        for(let r0=0;r0<q.getModuleCount();r0++){
-          for(let c0=0;c0<q.getModuleCount();c0++){
-            if(q.isDark(r0,c0)) ctx.fillRect(c0*scale, r0*scale, scale, scale);
-          }
-        }
-        return canvas;
-      }catch(err){
-        console.error('QR error', err);
-        const c = document.createElement('canvas');
-        c.width = c.height = 200; const x = c.getContext('2d');
-        x.fillStyle = '#fff'; x.fillRect(0,0,200,200); x.fillStyle = '#000';
-        x.fillText('Erro ao gerar QR', 20, 100);
-        return c;
-      }
-    }
-
-    const qrDiv = document.getElementById('qrcode');
-    const urlInput = document.getElementById('qrUrl');
-    const genBtn = document.getElementById('genQR');
-    const dlBtn = document.getElementById('downloadQR');
-    const copyBtn = document.getElementById('copyLink');
-
-    function renderQR(){
-      qrDiv.innerHTML = '';
-      const link = urlInput.value.trim() || window.location.href;
-      const canvas = generateQRCode(link);
-      qrDiv.appendChild(canvas);
-      qrDiv.dataset.png = canvas.toDataURL('image/png');
-    }
-
-    genBtn.addEventListener('click', renderQR);
-    urlInput.addEventListener('input', () => {
-      // atualização em tempo real sem travar
-      if(urlInput.value.length % 4 === 0) renderQR();
-    });
-
-    dlBtn.addEventListener('click', () => {
-      if(!qrDiv.dataset.png) renderQR();
-      const a = document.createElement('a');
-      a.href = qrDiv.dataset.png; a.download = 'qr-nosso-amor.png'; a.click();
-    });
-
-    copyBtn.addEventListener('click', async () => {
-      const link = urlInput.value.trim() || window.location.href;
-      try { await navigator.clipboard.writeText(link); copyBtn.textContent = 'Link copiado!'; setTimeout(()=>copyBtn.textContent='Copiar link',1500);} catch(e){ alert('Não foi possível copiar.'); }
-    });
-
-    // Inicializa com a URL atual
-    urlInput.value = window.location.href;
-    renderQR();
-  </script>
+  // QR Code
+  const qrCanvas = document.getElementById('qrcode');
+  QRCode.toCanvas(qrCanvas, window.location.href, {width:200}, function (error) { if(error) console.error(error); });
+</script>
 </body>
 </html>

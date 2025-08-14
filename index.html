@@ -1,97 +1,185 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Nosso Amor</title>
-  <meta name="description" content="Um site romântico com contador desde 20/07/2025, galeria de fotos fixa e QR Code." />
-  <style>
-    :root {
-      --roxinho: #7b3aed;
-      --rosa: #ff4d94;
-      --branco: #ffffff;
-      --preto: #0f0f13;
-      --gradient: linear-gradient(135deg, rgba(123,58,237,.9), rgba(255,77,148,.9));
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana Luiza ❤️ Vinícius</title>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        background: linear-gradient(135deg, #ffb6c1, #dda0dd);
+        color: white;
+        overflow-x: hidden;
     }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; margin:0; font-family: Poppins, sans-serif; color: var(--branco); background: var(--preto); line-height:1.6; }
-    .container { width: min(1100px, 92vw); margin: 0 auto; }
-    header.hero { position: relative; padding: clamp(2rem,6vw,4rem) 0; text-align:center; background: var(--gradient); border-bottom-left-radius:2rem; border-bottom-right-radius:2rem; }
-    .title h1 { font-size: clamp(2rem,5vw,3.5rem); margin:0 0 .5rem; }
-    .countdown { display:grid; gap:1rem; grid-template-columns: repeat(4, minmax(120px,1fr)); margin-top:2rem; }
-    .counter-card { background: rgba(255,255,255,.08); border-radius:1.5rem; padding:1rem; text-align:center; }
-    .counter-value { font-size: clamp(2rem,4.5vw,3rem); font-weight:800; }
-    .counter-label { opacity:.85; }
-    section { padding: clamp(2rem,6vw,3.5rem) 0; }
-    .gallery { display:grid; gap:1rem; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); }
-    .photo-slot { position: relative; aspect-ratio: 1/1; border-radius:1rem; overflow:hidden; border:1px solid rgba(255,255,255,.25); }
-    .photo-slot img { width:100%; height:100%; object-fit:cover; }
-    .heart-frame::after{ content: ''; position:absolute; inset:0; background: radial-gradient(60% 60% at 50% 40%, rgba(255,77,148,.35), transparent 60%), radial-gradient(50% 50% at 70% 70%, rgba(123,58,237,.25), transparent 60%); mix-blend-mode: screen; }
-    .qr-canvas { width:200px; height:200px; margin:1rem auto; display:block; }
-    footer { text-align:center; padding-bottom:2rem; opacity:.8; }
-  </style>
+    header {
+        padding: 20px;
+        font-size: 2em;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .contador {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+    .qr-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    #qrcode {
+        margin-top: 10px;
+    }
+    .slideshow-container {
+        position: relative;
+        max-width: 500px;
+        margin: auto;
+        border: 8px solid white;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(255,255,255,0.8);
+        overflow: hidden;
+    }
+    .slides {
+        display: none;
+        width: 100%;
+        border-radius: 10px;
+        animation: fade 1.5s;
+    }
+    @keyframes fade {
+        from {opacity: .4} 
+        to {opacity: 1}
+    }
+    .pause-btn {
+        background: rgba(0,0,0,0.6);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    canvas#hearts {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+</style>
 </head>
 <body>
-<header class="hero">
-  <div class="title">
-    <h1>Nosso Amor</h1>
-    <p>Desde <strong>20/07/2025</strong> — celebrando cada segundo ao seu lado.</p>
-    <div class="countdown" id="countdown">
-      <div class="counter-card"><div class="counter-value" id="days">0</div><div class="counter-label">dias</div></div>
-      <div class="counter-card"><div class="counter-value" id="hours">0</div><div class="counter-label">horas</div></div>
-      <div class="counter-card"><div class="counter-value" id="minutes">0</div><div class="counter-label">minutos</div></div>
-      <div class="counter-card"><div class="counter-value" id="seconds">0</div><div class="counter-label">segundos</div></div>
-    </div>
-  </div>
-</header>
-<main class="container">
-  <section>
-    <h2>Nosso Álbum</h2>
-    <div class="gallery">
-      <div class="photo-slot heart-frame"><img src="images/foto1.png" alt="Momento 1"></div>
-      <div class="photo-slot heart-frame"><img src="images/foto2.jpg" alt="Momento 2"></div>
-      <div class="photo-slot heart-frame"><img src="images/foto3.jpg" alt="Momento 3"></div>
-      <div class="photo-slot heart-frame"><img src="images/foto4.jpg" alt="Momento 4"></div>
-      <div class="photo-slot heart-frame"><img src="images/foto5.jpg" alt="Momento 5"></div>
-      <div class="photo-slot heart-frame"><img src="images/foto6.jpg" alt="Momento 6"></div>
-      <div class="photo-slot heart-frame"><img src="images/foto7.jpg" alt="Momento 7"></div>
-      <div class="photo-slot heart-frame"><img src="images/foto8.jpg" alt="Momento 8"></div>
-    </div>
-  </section>
-  <section>
-    <h2>QR Code do Nosso Site</h2>
-    <canvas class="qr-canvas" id="qrcode"></canvas>
-  </section>
-</main>
-<footer>
-  <p>Feito com ❤ em roxo e rosa.</p>
-</footer>
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-<script>
-  // Contador
-  const startDate = new Date('2025-07-20T00:00:00');
-  const daysEl = document.getElementById('days');
-  const hoursEl = document.getElementById('hours');
-  const minutesEl = document.getElementById('minutes');
-  const secondsEl = document.getElementById('seconds');
-  function updateCountdown(){
-    const now = new Date(); let diff = now - startDate;
-    if(diff<0) diff=0;
-    const sec = Math.floor(diff/1000);
-    const days = Math.floor(sec/86400);
-    const hours = Math.floor((sec%86400)/3600);
-    const minutes = Math.floor((sec%3600)/60);
-    const seconds = sec%60;
-    daysEl.textContent = days;
-    hoursEl.textContent = String(hours).padStart(2,'0');
-    minutesEl.textContent = String(minutes).padStart(2,'0');
-    secondsEl.textContent = String(seconds).padStart(2,'0');
-  }
-  updateCountdown(); setInterval(updateCountdown,1000);
 
-  // QR Code
-  const qrCanvas = document.getElementById('qrcode');
-  QRCode.toCanvas(qrCanvas, window.location.href, {width:200}, function (error) { if(error) console.error(error); });
+<canvas id="hearts"></canvas>
+
+<header>Ana Luiza ❤️ Vinícius</header>
+<div class="contador" id="contador"></div>
+
+<div class="qr-section">
+    <h3>QR Code do nosso site</h3>
+    <div id="qrcode"></div>
+</div>
+
+<div class="slideshow-container">
+    <img class="slides" src="foto1.jpg" alt="Foto 1">
+    <img class="slides" src="foto2.jpg" alt="Foto 2">
+    <img class="slides" src="foto3.jpg" alt="Foto 3">
+</div>
+<button class="pause-btn" onclick="toggleSlideshow()">Pausar</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+    // Contador desde 20/07/2025
+    function atualizarContador() {
+        const inicio = new Date(2025, 6, 20);
+        const agora = new Date();
+        const diff = agora - inicio;
+        const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutos = Math.floor((diff / (1000 * 60)) % 60);
+        const segundos = Math.floor((diff / 1000) % 60);
+        document.getElementById('contador').innerText = 
+            `${dias} dias ${horas}h ${minutos}m ${segundos}s juntos ❤️`;
+    }
+    setInterval(atualizarContador, 1000);
+
+    // QR Code
+    new QRCode(document.getElementById("qrcode"), {
+        text: "https://viniciusm27.github.io/Cron-metro/",
+        width: 150,
+        height: 150
+    });
+
+    // Slideshow
+    let slideIndex = 0;
+    let playing = true;
+    let slides = document.getElementsByClassName("slides");
+    function showSlides() {
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}
+        slides[slideIndex-1].style.display = "block";
+        if (playing) {
+            setTimeout(showSlides, 3000);
+        }
+    }
+    showSlides();
+    function toggleSlideshow() {
+        playing = !playing;
+        if (playing) showSlides();
+    }
+
+    // Background Corações
+    const canvas = document.getElementById("hearts");
+    const ctx = canvas.getContext("2d");
+    let hearts = [];
+    let colors = ["#ff69b4", "#ff1493", "#dda0dd", "#ffffff", "#ffb6c1"];
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    function createHeart() {
+        hearts.push({
+            x: Math.random() * canvas.width,
+            y: canvas.height + 20,
+            size: Math.random() * 20 + 10,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            speed: Math.random() * 1 + 0.5
+        });
+    }
+    function drawHearts() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < hearts.length; i++) {
+            let h = hearts[i];
+            ctx.fillStyle = h.color;
+            ctx.beginPath();
+            ctx.moveTo(h.x, h.y);
+            ctx.bezierCurveTo(h.x - h.size / 2, h.y - h.size / 2, h.x - h.size, h.y + h.size / 3, h.x, h.y + h.size);
+            ctx.bezierCurveTo(h.x + h.size, h.y + h.size / 3, h.x + h.size / 2, h.y - h.size / 2, h.x, h.y);
+            ctx.fill();
+            h.y -= h.speed;
+        }
+        hearts = hearts.filter(h => h.y + h.size > 0);
+    }
+    setInterval(createHeart, 200);
+    setInterval(drawHearts, 30);
+
+    // Atualização automática
+    setInterval(() => {
+        fetch(window.location.href)
+            .then(res => res.text())
+            .then(html => {
+                let parser = new DOMParser();
+                let doc = parser.parseFromString(html, "text/html");
+                document.body.innerHTML = doc.body.innerHTML;
+            });
+    }, 10000);
 </script>
 </body>
 </html>
+```

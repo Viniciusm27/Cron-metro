@@ -1,191 +1,156 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ana Luiza ❤️ Vinícius</title>
-  <meta name="description" content="Site romântico com contador desde 20/07/2025, slideshow com fade, QR Code e fundo animado com corações." />
-  <style>
-    :root {
-      --roxinho: #7b3aed;
-      --rosa: #ff4d94;
-      --branco: #ffffff;
-      --preto: #0f0f13;
-      /* Cores dos corações (mudam dinamicamente via JS) */
-      --heart-1: rgba(255,77,148,.35);
-      --heart-2: rgba(123,58,237,.25);
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ana Luiza ❤️ Vinícius</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(270deg, #ffb6c1, #8a2be2, #ff69b4, #000);
+        background-size: 800% 800%;
+        animation: gradientMove 20s ease infinite;
+        overflow-x: hidden;
+        color: white;
+        text-align: center;
     }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; margin:0; font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color: var(--branco); background: radial-gradient(circle at 20% 20%, #2a1435 0%, #37124a 35%, #0f0f13 100%); line-height:1.6; }
 
-    /* Fundo animado sutil */
-    body::before, body::after {
-      content: ""; position: fixed; inset: -20%; z-index: -2; background: radial-gradient(60% 60% at 30% 30%, rgba(255,77,148,.10) 0%, transparent 60%), radial-gradient(50% 50% at 70% 70%, rgba(123,58,237,.10) 0%, transparent 60%);
-      animation: floatBlob 18s ease-in-out infinite alternate; filter: blur(20px);
+    @keyframes gradientMove {
+        0% {background-position: 0% 50%;}
+        50% {background-position: 100% 50%;}
+        100% {background-position: 0% 50%;}
     }
-    body::after { animation-delay: -9s; }
-    @keyframes floatBlob { from { transform: translateY(-2%) scale(1.02); } to { transform: translateY(2%) scale(0.98); } }
 
-    .container { width: min(1100px, 92vw); margin: 0 auto; }
-
-    header.hero { position: relative; padding: clamp(2rem,6vw,4rem) 0; text-align:center; background: linear-gradient(135deg, rgba(123,58,237,.85), rgba(255,77,148,.85)); border-bottom-left-radius:2rem; border-bottom-right-radius:2rem; overflow:hidden; }
-    header.hero::after{ content:""; position:absolute; inset:-2px; background: radial-gradient(60% 60% at 50% 40%, var(--heart-1), transparent 60%), radial-gradient(50% 50% at 70% 70%, var(--heart-2), transparent 60%); mix-blend-mode: screen; pointer-events:none; }
-
-    .title h1 { font-size: clamp(2.2rem,5vw,3.8rem); margin:0.2rem 0; text-shadow: 2px 2px 8px rgba(0,0,0,0.45); }
-    .title p { font-size:1.15rem; margin:0.2rem 0; text-shadow: 1px 1px 5px rgba(0,0,0,0.3); }
-    .names { font-size:2rem; font-weight:800; margin:1rem 0; text-shadow: 2px 2px 6px rgba(0,0,0,0.35); }
-
-    .countdown { display:grid; gap:1rem; grid-template-columns: repeat(4, minmax(120px,1fr)); margin-top:2rem; }
-    .counter-card { background: rgba(255,255,255,.08); border-radius:1.25rem; padding:1rem; text-align:center; backdrop-filter: blur(4px); border:1px solid rgba(255,255,255,.15); }
-    .counter-value { font-size: clamp(2rem,4.2vw,3rem); font-weight:800; }
-    .counter-label { opacity:.9; letter-spacing:.5px; }
-
-    section { padding: clamp(2rem,6vw,3.5rem) 0; text-align:center; }
-
-    /* Slideshow com fade e moldura romântica */
-    .slideshow { position: relative; max-width: 720px; aspect-ratio: 16/10; margin: 0 auto; border-radius:1.5rem; overflow:hidden; box-shadow: 0 15px 40px rgba(0,0,0,.35); border: 2px solid rgba(255,255,255,.2); }
-    .slideshow::after{ content:""; position:absolute; inset:0; background: radial-gradient(60% 60% at 50% 40%, var(--heart-1), transparent 60%), radial-gradient(50% 50% at 70% 70%, var(--heart-2), transparent 60%); mix-blend-mode: screen; pointer-events:none; }
-    .slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition: opacity 1s ease; }
-    .slide.active { opacity:1; }
-
-    .controls { display:flex; gap:.75rem; justify-content:center; margin-top:1rem; }
-    button { padding:0.6rem 1rem; border:none; border-radius:0.75rem; background:var(--roxinho); color:var(--branco); cursor:pointer; font-weight:700; box-shadow: 0 6px 18px rgba(123,58,237,.35); }
-    button.secondary { background:var(--rosa); box-shadow: 0 6px 18px rgba(255,77,148,.35); }
-
-    /* QR centralizado com título alinhado */
-    .qr-section { display:flex; flex-direction:column; align-items:center; justify-content:center; margin-top:2.25rem; }
-    .qr-section h2 { margin: 0; }
-    .qr-canvas { width:200px; height:200px; display:block; margin-top:0.75rem; }
-
-    footer { text-align:center; padding:2rem 0 2.5rem; opacity:.85; }
-
-    @media (max-width: 640px){
-      .countdown{ grid-template-columns: repeat(2, 1fr); }
+    h1 {
+        font-size: 2.5em;
+        margin-top: 20px;
+        color: #fff;
     }
-  </style>
+
+    .contador {
+        font-size: 1.5em;
+        margin: 20px 0;
+    }
+
+    .slideshow-container {
+        position: relative;
+        max-width: 500px;
+        margin: auto;
+    }
+
+    .slideshow-container img {
+        width: 100%;
+        border: 8px solid white;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+        display: none;
+    }
+
+    .qr-container {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #qrcode {
+        margin-bottom: 10px;
+    }
+
+    .hearts {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: -1;
+    }
+
+    .heart {
+        position: absolute;
+        font-size: 20px;
+        animation: floatUp 5s linear infinite;
+    }
+
+    @keyframes floatUp {
+        0% { transform: translateY(100vh) scale(1); opacity: 1; }
+        100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
+    }
+</style>
 </head>
 <body>
-  <header class="hero">
-    <div class="title container">
-      <h1>Nosso Amor</h1>
-      <p>Desde <strong>20/07/2025</strong> — celebrando cada segundo ao seu lado.</p>
-      <div class="names">Ana Luiza ❤️ Vinícius</div>
-      <div class="countdown" id="countdown">
-        <div class="counter-card"><div class="counter-value" id="days">0</div><div class="counter-label">dias</div></div>
-        <div class="counter-card"><div class="counter-value" id="hours">0</div><div class="counter-label">horas</div></div>
-        <div class="counter-card"><div class="counter-value" id="minutes">0</div><div class="counter-label">minutos</div></div>
-        <div class="counter-card"><div class="counter-value" id="seconds">0</div><div class="counter-label">segundos</div></div>
-      </div>
-    </div>
-  </header>
 
-  <main class="container">
-    <section>
-      <h2>Nosso Álbum Dinâmico</h2>
-      <div class="slideshow" id="slideshow">
-        <!-- Substitua as imagens abaixo pelas suas (pasta images/) -->
-        <img class="slide active" src="images/foto1.jpg" alt="Momento 1">
-        <img class="slide" src="images/foto2.jpg" alt="Momento 2">
-        <img class="slide" src="images/foto3.jpg" alt="Momento 3">
-        <img class="slide" src="images/foto4.jpg" alt="Momento 4">
-        <img class="slide" src="images/foto5.jpg" alt="Momento 5">
-        <img class="slide" src="images/foto6.jpg" alt="Momento 6">
-        <img class="slide" src="images/foto7.jpg" alt="Momento 7">
-        <img class="slide" src="images/foto8.jpg" alt="Momento 8">
-      </div>
-      <div class="controls">
-        <button id="pauseBtn">Pausar</button>
-        <button id="playBtn" class="secondary">Continuar</button>
-      </div>
-    </section>
+<h1>Ana Luiza ❤️ Vinícius</h1>
+<div class="contador" id="contador"></div>
 
-    <section class="qr-section">
-      <h2>QR Code do Nosso Site</h2>
-      <canvas class="qr-canvas" id="qrcode"></canvas>
-    </section>
-  </main>
+<div class="slideshow-container" id="slideshow"></div>
 
-  <footer>
-    <p>Feito com ❤ em roxo e rosa.</p>
-  </footer>
+<div class="qr-container">
+    <div id="qrcode"></div>
+    <p>QR Code do nosso site</p>
+</div>
 
-  <!-- Biblioteca do QRCode (usa a API toCanvas) -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-  <script>
-    // ===================== Contador =====================
-    const startDate = new Date('2025-07-20T00:00:00');
-    const daysEl = document.getElementById('days');
-    const hoursEl = document.getElementById('hours');
-    const minutesEl = document.getElementById('minutes');
-    const secondsEl = document.getElementById('seconds');
-    function updateCountdown(){
-      const now = new Date(); let diff = now - startDate; if(diff<0) diff=0;
-      const sec = Math.floor(diff/1000);
-      const days = Math.floor(sec/86400);
-      const hours = Math.floor((sec%86400)/3600);
-      const minutes = Math.floor((sec%3600)/60);
-      const seconds = sec%60;
-      daysEl.textContent = days;
-      hoursEl.textContent = String(hours).padStart(2,'0');
-      minutesEl.textContent = String(minutes).padStart(2,'0');
-      secondsEl.textContent = String(seconds).padStart(2,'0');
+<div class="hearts" id="hearts"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+    // Contador
+    const startDate = new Date("2025-07-20T00:00:00");
+    const contador = document.getElementById("contador");
+    setInterval(() => {
+        const now = new Date();
+        const diff = now - startDate;
+        const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutos = Math.floor((diff / (1000 * 60)) % 60);
+        const segundos = Math.floor((diff / 1000) % 60);
+        contador.textContent = `${dias} dias, ${horas}h ${minutos}m ${segundos}s`;
+    }, 1000);
+
+    // QR Code
+    new QRCode(document.getElementById("qrcode"), {
+        text: "https://viniciusm27.github.io/Cron-metro/",
+        width: 128,
+        height: 128
+    });
+
+    // Slideshow - pega imagens da pasta images
+    const repoImages = [
+        "images/foto1.jpg",
+        "images/foto2.jpg",
+        "images/foto3.jpg"
+    ];
+    let slideIndex = 0;
+    const slideshow = document.getElementById("slideshow");
+
+    repoImages.forEach((src, index) => {
+        const img = document.createElement("img");
+        img.src = src;
+        if(index === 0) img.style.display = "block";
+        slideshow.appendChild(img);
+    });
+
+    setInterval(() => {
+        const imgs = slideshow.getElementsByTagName("img");
+        imgs[slideIndex].style.display = "none";
+        slideIndex = (slideIndex + 1) % imgs.length;
+        imgs[slideIndex].style.display = "block";
+    }, 4000);
+
+    // Corações coloridos dinâmicos
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.color = `hsl(${Math.random() * 360}, 100%, 75%)`;
+        heart.textContent = "❤️";
+        document.getElementById("hearts").appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
     }
-    updateCountdown(); setInterval(updateCountdown,1000);
-
-    // ===================== QR Code =====================
-    (function makeQR(){
-      const qrCanvas = document.getElementById('qrcode');
-      const urlDoSite = 'https://viniciusm27.github.io/Cron-metro/';
-      QRCode.toCanvas(qrCanvas, urlDoSite, { width: 200 }, function (error) {
-        if(error) console.error('Erro ao gerar QR:', error);
-      });
-    })();
-
-    // ===================== Slideshow com fade =====================
-    const slides = Array.from(document.querySelectorAll('.slide'));
-    const frame = document.getElementById('slideshow');
-    let idx = 0;
-    let playing = true;
-    const INTERVALO = 4000;
-
-    function randomColor(){
-      const h = Math.floor(Math.random()*360);
-      const s = 85 + Math.random()*10; // 85–95%
-      const l = 65 + Math.random()*10; // 65–75%
-      const a = 0.35;
-      return `hsla(${h}, ${s}%, ${l}%, ${a})`;
-    }
-    function updateHeartColors(){
-      frame.style.setProperty('--heart-1', randomColor());
-      frame.style.setProperty('--heart-2', randomColor());
-      document.querySelector('header.hero').style.setProperty('--heart-1', randomColor());
-      document.querySelector('header.hero').style.setProperty('--heart-2', randomColor());
-    }
-
-    function showNext(){
-      slides[idx].classList.remove('active');
-      idx = (idx + 1) % slides.length;
-      slides[idx].classList.add('active');
-      updateHeartColors();
-    }
-
-    let timer = setInterval(showNext, INTERVALO);
-    document.getElementById('pauseBtn').addEventListener('click', () => { if(!playing) return; playing=false; clearInterval(timer); });
-    document.getElementById('playBtn').addEventListener('click', () => { if(playing) return; playing=true; timer=setInterval(showNext, INTERVALO); });
-
-    // ===================== Auto-reload quando houver atualização =====================
-    // Checa o ETag/Last-Modified do arquivo e recarrega a página quando mudar (GitHub Pages suporta isso)
-    let lastTag = null;
-    async function checkForUpdate(){
-      try {
-        const resp = await fetch(window.location.href, { method: 'HEAD', cache: 'no-store' });
-        const tag = resp.headers.get('etag') || resp.headers.get('last-modified');
-        if(tag && lastTag && tag !== lastTag){ location.reload(); }
-        if(tag && !lastTag){ lastTag = tag; }
-      } catch(e){ console.log('Auto-update falhou (ok ignorar):', e); }
-    }
-    setInterval(checkForUpdate, 15000);
-    checkForUpdate();
-  </script>
+    setInterval(createHeart, 300);
+</script>
 </body>
 </html>

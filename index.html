@@ -45,6 +45,15 @@
         border-radius: 15px;
         box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
         display: none;
+        transition: opacity 1s ease-in-out;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .slideshow-container img.active {
+        display: block;
+        opacity: 1;
     }
 
     .qr-container {
@@ -79,6 +88,33 @@
         0% { transform: translateY(100vh) scale(1); opacity: 1; }
         100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
     }
+
+    .frases {
+        margin-top: 30px;
+        font-size: 1.2em;
+        font-style: italic;
+        min-height: 30px;
+    }
+
+    .contador-futuros {
+        margin-top: 20px;
+        font-size: 1.2em;
+    }
+
+    .musica {
+        margin-top: 20px;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 1em;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background-color: #ff69b4;
+        color: white;
+        box-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
+    }
 </style>
 </head>
 <body>
@@ -87,6 +123,14 @@
 <div class="contador" id="contador"></div>
 
 <div class="slideshow-container" id="slideshow"></div>
+
+<div class="frases" id="frases"></div>
+<div class="contador-futuros" id="futuros"></div>
+
+<div class="musica">
+    <audio id="audio" src="https://www.youtube.com/cgjekKyN_e4?si=WoDfvA5HCaaR-aRA" loop></audio>
+    <button id="btnAudio">Tocar Música</button>
+</div>
 
 <div class="qr-container">
     <div id="qrcode"></div>
@@ -97,7 +141,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-    // Contador
+    // Contador desde 20/07/2025
     const startDate = new Date("2025-07-20T00:00:00");
     const contador = document.getElementById("contador");
     setInterval(() => {
@@ -117,30 +161,25 @@
         height: 128
     });
 
-    // Slideshow - pega imagens da pasta images
-    const repoImages = [
-        "images/foto1.png",
-        "images/foto2.png",
-        "images/foto3.png"
-    ];
+    // Slideshow
+    const repoImages = ["images/foto1.jpg", "images/foto2.jpg", "images/foto3.jpg"];
     let slideIndex = 0;
     const slideshow = document.getElementById("slideshow");
-
     repoImages.forEach((src, index) => {
         const img = document.createElement("img");
         img.src = src;
-        if(index === 0) img.style.display = "block";
+        if(index === 0) img.classList.add("active");
         slideshow.appendChild(img);
     });
 
     setInterval(() => {
         const imgs = slideshow.getElementsByTagName("img");
-        imgs[slideIndex].style.display = "none";
+        imgs[slideIndex].classList.remove("active");
         slideIndex = (slideIndex + 1) % imgs.length;
-        imgs[slideIndex].style.display = "block";
+        imgs[slideIndex].classList.add("active");
     }, 4000);
 
-    // Corações coloridos dinâmicos
+    // Corações dinâmicos
     function createHeart() {
         const heart = document.createElement("div");
         heart.classList.add("heart");
@@ -151,6 +190,48 @@
         setTimeout(() => heart.remove(), 5000);
     }
     setInterval(createHeart, 300);
+
+    // Frases românticas aleatórias
+    const frases = [
+        "Te amo mais a cada dia ❤️",
+        "Você é meu mundo 🌎",
+        "Meu coração é seu para sempre 💕",
+        "Juntos somos perfeitos ✨",
+        "Meu amor por você não tem fim 💖"
+    ];
+    const fraseEl = document.getElementById("frases");
+    setInterval(() => {
+        const idx = Math.floor(Math.random() * frases.length);
+        fraseEl.textContent = frases[idx];
+    }, 5000);
+
+    // Contador de aniversários futuros
+    const futurosEl = document.getElementById("futuros");
+    function updateFuturos() {
+        const now = new Date();
+        const oneMonth = new Date(now.getFullYear(), now.getMonth()+1, 20);
+        const oneYear = new Date(now.getFullYear()+1, 6, 20);
+        const diffMonth = oneMonth - now;
+        const diffYear = oneYear - now;
+        const diasMonth = Math.ceil(diffMonth / (1000*60*60*24));
+        const diasYear = Math.ceil(diffYear / (1000*60*60*24));
+        futurosEl.textContent = `Faltam ${diasMonth} dias para 1 mês e ${diasYear} dias para 1 ano juntos ❤️`;
+    }
+    updateFuturos();
+    setInterval(updateFuturos, 3600000);
+
+    // Música
+    const audio = document.getElementById("audio");
+    const btnAudio = document.getElementById("btnAudio");
+    btnAudio.addEventListener("click", () => {
+        if(audio.paused){
+            audio.play();
+            btnAudio.textContent = "Pausar Música";
+        } else {
+            audio.pause();
+            btnAudio.textContent = "Tocar Música";
+        }
+    });
 </script>
 </body>
 </html>

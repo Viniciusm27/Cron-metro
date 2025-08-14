@@ -22,113 +22,32 @@
         100% {background-position: 0% 50%;}
     }
 
-    h1 {
-        font-size: 2.5em;
-        margin-top: 20px;
-        color: #fff;
-    }
-
-    .contador {
-        font-size: 1.5em;
-        margin: 20px 0;
-    }
-
-    .slideshow-container {
-        position: relative;
-        max-width: 500px;
-        margin: auto;
-    }
-
-    .slideshow-container img {
-        width: 100%;
-        border: 8px solid white;
-        border-radius: 15px;
-        box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
-        display: none;
-        transition: opacity 1s ease-in-out;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-
-    .slideshow-container img.active {
-        display: block;
-        opacity: 1;
-    }
-
-    .qr-container {
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #qrcode {
-        margin-bottom: 10px;
-    }
-
-    .hearts {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        overflow: hidden;
-        z-index: -1;
-    }
-
-    .heart {
-        position: absolute;
-        font-size: 20px;
-        animation: floatUp 5s linear infinite;
-    }
-
-    @keyframes floatUp {
-        0% { transform: translateY(100vh) scale(1); opacity: 1; }
-        100% { transform: translateY(-10vh) scale(0.5); opacity: 0; }
-    }
-
-    .frases {
-        margin-top: 30px;
-        font-size: 1.2em;
-        font-style: italic;
-        min-height: 30px;
-    }
-
-    .contador-futuros {
-        margin-top: 20px;
-        font-size: 1.2em;
-    }
-
-    .musica {
-        margin-top: 20px;
-    }
-
-    button {
-        padding: 10px 20px;
-        font-size: 1em;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        background-color: #ff69b4;
-        color: white;
-        box-shadow: 0 0 10px rgba(255, 105, 180, 0.8);
-    }
+    h1 { font-size: 2.5em; margin-top: 20px; color: #fff; }
+    .contador { font-size: 1.5em; margin: 20px 0; }
+    .slideshow-container { position: relative; max-width: 500px; margin: auto; }
+    .slideshow-container img { width: 100%; border: 8px solid white; border-radius: 15px; box-shadow: 0 0 20px rgba(255,105,180,0.8); display: none; transition: opacity 1s ease-in-out; position: absolute; top:0; left:0; }
+    .slideshow-container img.active { display: block; opacity: 1; }
+    .qr-container { margin-top: 20px; display: flex; flex-direction: column; align-items: center; }
+    #qrcode { margin-bottom: 10px; }
+    .hearts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: -1; }
+    .heart { position: absolute; font-size: 20px; animation: floatUp 5s linear infinite; }
+    @keyframes floatUp { 0% { transform: translateY(100vh) scale(1); opacity: 1; } 100% { transform: translateY(-10vh) scale(0.5); opacity: 0; } }
+    .frases { margin-top: 30px; font-size: 1.2em; font-style: italic; min-height: 30px; }
+    .contador-futuros { margin-top: 20px; font-size: 1.2em; }
+    .musica { margin-top: 20px; }
+    button { padding: 10px 20px; font-size: 1em; border: none; border-radius: 10px; cursor: pointer; background-color: #ff69b4; color: white; box-shadow: 0 0 10px rgba(255,105,180,0.8); }
 </style>
 </head>
 <body>
 
 <h1>Ana Luiza ❤️ Vinícius</h1>
 <div class="contador" id="contador"></div>
-
 <div class="slideshow-container" id="slideshow"></div>
-
 <div class="frases" id="frases"></div>
 <div class="contador-futuros" id="futuros"></div>
 
 <div class="musica">
-    <audio id="audio" src="https://www.youtube.com/cgjekKyN_e4?si=WoDfvA5HCaaR-aRA" loop></audio>
+    <iframe id="audio" width="0" height="0" src="https://www.youtube.com/embed/cgjekKyN_e4?enablejsapi=1&loop=1&playlist=cgjekKyN_e4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     <button id="btnAudio">Tocar Música</button>
 </div>
 
@@ -136,102 +55,83 @@
     <div id="qrcode"></div>
     <p>QR Code do nosso site</p>
 </div>
-
 <div class="hearts" id="hearts"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-    // Contador desde 20/07/2025
-    const startDate = new Date("2025-07-20T00:00:00");
-    const contador = document.getElementById("contador");
-    setInterval(() => {
-        const now = new Date();
-        const diff = now - startDate;
-        const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const minutos = Math.floor((diff / (1000 * 60)) % 60);
-        const segundos = Math.floor((diff / 1000) % 60);
-        contador.textContent = `${dias} dias, ${horas}h ${minutos}m ${segundos}s`;
-    }, 1000);
+const startDate = new Date("2025-07-20T00:00:00");
+const contador = document.getElementById("contador");
+setInterval(()=>{
+    const now = new Date();
+    const diff = now - startDate;
+    const dias = Math.floor(diff/(1000*60*60*24));
+    const horas = Math.floor((diff/(1000*60*60))%24);
+    const minutos = Math.floor((diff/(1000*60))%60);
+    const segundos = Math.floor((diff/1000)%60);
+    contador.textContent = `${dias} dias, ${horas}h ${minutos}m ${segundos}s`;
+},1000);
 
-    // QR Code
-    new QRCode(document.getElementById("qrcode"), {
-        text: "https://viniciusm27.github.io/Cron-metro/",
-        width: 128,
-        height: 128
-    });
+new QRCode(document.getElementById("qrcode"), { text:"https://viniciusm27.github.io/Cron-metro/", width:128, height:128 });
 
-    // Slideshow
-    const repoImages = ["images/foto1.jpg", "images/foto2.jpg", "images/foto3.jpg"];
-    let slideIndex = 0;
-    const slideshow = document.getElementById("slideshow");
-    repoImages.forEach((src, index) => {
-        const img = document.createElement("img");
-        img.src = src;
-        if(index === 0) img.classList.add("active");
-        slideshow.appendChild(img);
-    });
+const repoImages = ["images/foto1.jpg","images/foto2.jpg","images/foto3.jpg"];
+let slideIndex=0;
+const slideshow=document.getElementById("slideshow");
+repoImages.forEach((src,index)=>{
+    const img=document.createElement("img");
+    img.src=src;
+    if(index===0) img.classList.add("active");
+    slideshow.appendChild(img);
+});
+setInterval(()=>{
+    const imgs=slideshow.getElementsByTagName("img");
+    imgs[slideIndex].classList.remove("active");
+    slideIndex=(slideIndex+1)%imgs.length;
+    imgs[slideIndex].classList.add("active");
+},4000);
 
-    setInterval(() => {
-        const imgs = slideshow.getElementsByTagName("img");
-        imgs[slideIndex].classList.remove("active");
-        slideIndex = (slideIndex + 1) % imgs.length;
-        imgs[slideIndex].classList.add("active");
-    }, 4000);
+function createHeart(){
+    const heart=document.createElement("div");
+    heart.classList.add("heart");
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.color=`hsl(${Math.random()*360},100%,75%)`;
+    heart.textContent="❤️";
+    document.getElementById("hearts").appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+}
+setInterval(createHeart,300);
 
-    // Corações dinâmicos
-    function createHeart() {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.color = `hsl(${Math.random() * 360}, 100%, 75%)`;
-        heart.textContent = "❤️";
-        document.getElementById("hearts").appendChild(heart);
-        setTimeout(() => heart.remove(), 5000);
+const frases=["Te amo mais a cada dia ❤️","Você é meu mundo 🌎","Meu coração é seu para sempre 💕","Juntos somos perfeitos ✨","Meu amor por você não tem fim 💖"];
+const fraseEl=document.getElementById("frases");
+setInterval(()=>{ const idx=Math.floor(Math.random()*frases.length); fraseEl.textContent=frases[idx];},5000);
+
+const futurosEl=document.getElementById("futuros");
+function updateFuturos(){
+    const now=new Date();
+    const oneMonth=new Date(now.getFullYear(),now.getMonth()+1,20);
+    const oneYear=new Date(now.getFullYear()+1,6,20);
+    const diffMonth=oneMonth-now;
+    const diffYear=oneYear-now;
+    const diasMonth=Math.ceil(diffMonth/(1000*60*60*24));
+    const diasYear=Math.ceil(diffYear/(1000*60*60*24));
+    futurosEl.textContent=`Faltam ${diasMonth} dias para 1 mês e ${diasYear} dias para 1 ano juntos ❤️`;
+}
+updateFuturos();
+setInterval(updateFuturos,3600000);
+
+// Controle da música YouTube API
+let audioPlaying=false;
+const btnAudio=document.getElementById("btnAudio");
+const iframe=document.getElementById("audio");
+btnAudio.addEventListener("click",()=>{
+    if(!audioPlaying){
+        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":[]}','*');
+        btnAudio.textContent="Pausar Música";
+    } else {
+        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":[]}','*');
+        btnAudio.textContent="Tocar Música";
     }
-    setInterval(createHeart, 300);
-
-    // Frases românticas aleatórias
-    const frases = [
-        "Te amo mais a cada dia ❤️",
-        "Você é meu mundo 🌎",
-        "Meu coração é seu para sempre 💕",
-        "Juntos somos perfeitos ✨",
-        "Meu amor por você não tem fim 💖"
-    ];
-    const fraseEl = document.getElementById("frases");
-    setInterval(() => {
-        const idx = Math.floor(Math.random() * frases.length);
-        fraseEl.textContent = frases[idx];
-    }, 5000);
-
-    // Contador de aniversários futuros
-    const futurosEl = document.getElementById("futuros");
-    function updateFuturos() {
-        const now = new Date();
-        const oneMonth = new Date(now.getFullYear(), now.getMonth()+1, 20);
-        const oneYear = new Date(now.getFullYear()+1, 6, 20);
-        const diffMonth = oneMonth - now;
-        const diffYear = oneYear - now;
-        const diasMonth = Math.ceil(diffMonth / (1000*60*60*24));
-        const diasYear = Math.ceil(diffYear / (1000*60*60*24));
-        futurosEl.textContent = `Faltam ${diasMonth} dias para 1 mês e ${diasYear} dias para 1 ano juntos ❤️`;
-    }
-    updateFuturos();
-    setInterval(updateFuturos, 3600000);
-
-    // Música
-    const audio = document.getElementById("audio");
-    const btnAudio = document.getElementById("btnAudio");
-    btnAudio.addEventListener("click", () => {
-        if(audio.paused){
-            audio.play();
-            btnAudio.textContent = "Pausar Música";
-        } else {
-            audio.pause();
-            btnAudio.textContent = "Tocar Música";
-        }
-    });
+    audioPlaying=!audioPlaying;
+});
 </script>
 </body>
 </html>

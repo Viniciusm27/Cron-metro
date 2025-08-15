@@ -62,7 +62,6 @@
     .heart { position: absolute; font-size: 20px; animation: floatUp 5s linear infinite; }
     @keyframes floatUp { 0% { transform: translateY(100vh) scale(1); opacity: 1; } 100% { transform: translateY(-10vh) scale(0.5); opacity: 0; } }
 
-    /* Responsivo */
     @media(max-width:600px){
         .slideshow-container { max-width: 90%; height: 200px; }
         h1 { font-size: 2em; }
@@ -79,8 +78,8 @@
 <div class="contador-futuros" id="futuros"></div>
 
 <div class="musica">
-    <iframe id="audio" width="0" height="0" src="https://www.youtube.com/embed/cgjekKyN_e4?enablejsapi=1&loop=1&playlist=cgjekKyN_e4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    <button id="btnAudio">Tocar Música</button>
+    <iframe id="audio" width="0" height="0" src="https://www.youtube.com/embed/cgjekKyN_e4?enablejsapi=1&loop=1&playlist=cgjekKyN_e4&autoplay=1&mute=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <button id="btnAudio">Pausar Música</button>
 </div>
 
 <div class="qr-container">
@@ -106,7 +105,7 @@ setInterval(()=>{
 
 new QRCode(document.getElementById("qrcode"), { text:"https://viniciusm27.github.io/Cron-metro/", width:128, height:128 });
 
-const repoImages = ["images/foto1.png","images/foto2.png","images/foto3.png"];
+const repoImages = ["images/foto1.jpeg","images/foto2.jpeg","images/foto3.jpeg","images/foto5.jpeg","images/foto6.jpeg"];
 let slideIndex=0;
 const slideshow=document.getElementById("slideshow");
 repoImages.forEach((src,index)=>{
@@ -133,9 +132,33 @@ function createHeart(){
 }
 setInterval(createHeart,300);
 
-const frases=["Te amo mais a cada dia ❤️","Você é meu mundo 🌎","Meu coração é seu para sempre 💕","Juntos somos perfeitos ✨","Meu amor por você não tem fim 💖"];
-const fraseEl=document.getElementById("frases");
-setInterval(()=>{ const idx=Math.floor(Math.random()*frases.length); fraseEl.textContent=frases[idx];},5000);
+const frases=[
+"Te amo mais a cada dia ❤️","Você é meu mundo 🌎","Meu coração é seu para sempre 💕",
+"Juntos somos perfeitos ✨","Meu amor por você não tem fim 💖","Minha vida é você 💞",
+"Sempre juntos, sempre felizes ❤️","Amor eterno 🌹","Você é meu sonho realizado 🌟",
+"Cada momento contigo é mágico ✨","Meu porto seguro 🏠","Você me completa 💗",
+"Nosso amor é infinito ♾️","Sempre ao seu lado 💕","Você é minha razão de sorrir 😘"
+];
+
+const fraseEl = document.getElementById("frases");
+let fraseIndex = 0;
+let letraIndex = 0;
+
+function mostrarFrase() {
+    fraseEl.textContent = frases[fraseIndex].substring(0, letraIndex+1);
+    letraIndex++;
+    if (letraIndex < frases[fraseIndex].length) {
+        setTimeout(mostrarFrase, 100);
+    } else {
+        setTimeout(() => {
+            letraIndex = 0;
+            fraseIndex = (fraseIndex + 1) % frases.length;
+            mostrarFrase();
+        }, 2000);
+    }
+}
+
+mostrarFrase();
 
 const futurosEl=document.getElementById("futuros");
 function updateFuturos(){
@@ -151,18 +174,25 @@ function updateFuturos(){
 updateFuturos();
 setInterval(updateFuturos,3600000);
 
-let audioPlaying=false;
-const btnAudio=document.getElementById("btnAudio");
-const iframe=document.getElementById("audio");
-btnAudio.addEventListener("click",()=>{
-    if(!audioPlaying){
-        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":[]}','*');
-        btnAudio.textContent="Pausar Música";
+let audioPlaying = true;
+const btnAudio = document.getElementById("btnAudio");
+const iframe = document.getElementById("audio");
+
+function enableSoundOnce() {
+    iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":[]}', '*');
+    document.removeEventListener("click", enableSoundOnce);
+}
+document.addEventListener("click", enableSoundOnce);
+
+btnAudio.addEventListener("click", () => {
+    if (audioPlaying) {
+        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":[]}', '*');
+        btnAudio.textContent = "Tocar Música";
     } else {
-        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":[]}','*');
-        btnAudio.textContent="Tocar Música";
+        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":[]}', '*');
+        btnAudio.textContent = "Pausar Música";
     }
-    audioPlaying=!audioPlaying;
+    audioPlaying = !audioPlaying;
 });
 </script>
 </body>
